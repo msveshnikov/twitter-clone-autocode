@@ -17,6 +17,10 @@ const Auth = lazy(() => import("./pages/Auth"));
 const Tweet = lazy(() => import("./components/Tweet"));
 const Search = lazy(() => import("./pages/Search"));
 const TrendingTopics = lazy(() => import("./components/TrendingTopics"));
+const Notifications = lazy(() => import("./components/Notifications"));
+const Bookmarks = lazy(() => import("./pages/Bookmarks"));
+const Lists = lazy(() => import("./pages/Lists"));
+const Settings = lazy(() => import("./pages/Settings"));
 
 const AppContainer = styled.div`
     display: flex;
@@ -31,6 +35,11 @@ const ContentContainer = styled.div`
 
 const MainContent = styled.main`
     flex: 1;
+    padding: 20px;
+`;
+
+const SidebarRight = styled.aside`
+    width: 300px;
     padding: 20px;
 `;
 
@@ -73,9 +82,15 @@ const App = () => {
                                                 <Route path="/auth" component={Auth} />
                                                 <Route path="/tweet/:id" component={Tweet} />
                                                 <Route path="/search" component={Search} />
+                                                <Route path="/bookmarks" component={Bookmarks} />
+                                                <Route path="/lists" component={Lists} />
+                                                <Route path="/settings" component={Settings} />
                                             </Switch>
                                         </MainContent>
-                                        <TrendingTopics />
+                                        <SidebarRight>
+                                            <TrendingTopics />
+                                            <Notifications />
+                                        </SidebarRight>
                                     </ContentContainer>
                                 </Suspense>
                             </AppContainer>
