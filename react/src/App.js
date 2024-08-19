@@ -1,5 +1,5 @@
 import React, { useState, useEffect, lazy, Suspense } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Provider } from "react-redux";
@@ -76,16 +76,14 @@ const App = () => {
                                     <Header toggleDarkMode={toggleDarkMode} />
                                     <ContentContainer>
                                         <MainContent>
-                                            <Switch>
-                                                <Route exact path="/" component={Home} />
-                                                <Route path="/profile/:id" component={Profile} />
-                                                <Route path="/auth" component={Auth} />
-                                                <Route path="/tweet/:id" component={Tweet} />
-                                                <Route path="/search" component={Search} />
-                                                <Route path="/bookmarks" component={Bookmarks} />
-                                                <Route path="/lists" component={Lists} />
-                                                <Route path="/settings" component={Settings} />
-                                            </Switch>
+                                            <Route exact path="/" component={Home} />
+                                            <Route path="/profile/:id" component={Profile} />
+                                            <Route path="/auth" component={Auth} />
+                                            <Route path="/tweet/:id" component={Tweet} />
+                                            <Route path="/search" component={Search} />
+                                            <Route path="/bookmarks" component={Bookmarks} />
+                                            <Route path="/lists" component={Lists} />
+                                            <Route path="/settings" component={Settings} />
                                         </MainContent>
                                         <SidebarRight>
                                             <TrendingTopics />

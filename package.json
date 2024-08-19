@@ -19,6 +19,7 @@
         "docker:down": "docker-compose down"
     },
     "dependencies": {
+        "@eslint/js": "^9.9.0",
         "amqplib": "^0.10.0",
         "apollo-server-express": "^3.5.0",
         "bcrypt": "^5.1.1",
@@ -36,15 +37,10 @@
         "ws": "^8.18.0"
     },
     "devDependencies": {
-        "@babel/core": "^7.15.8",
-        "@babel/preset-env": "^7.15.8",
-        "@babel/preset-react": "^7.14.5",
-        "@storybook/react": "^6.3.12",
         "concurrently": "^7.0.0",
         "cypress": "^9.1.0",
         "docker-compose": "^0.23.13",
-        "eslint": "^8.57.0",
-        "eslint-config-prettier": "^8.3.0",
+        "eslint": "^8.1.0",
         "jest": "^27.3.1",
         "nodemon": "^2.0.14",
         "supertest": "^6.1.6"
