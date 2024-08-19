@@ -10,7 +10,11 @@ import path from "path";
 import dotenv from "dotenv";
 import { fileURLToPath } from "url";
 import Redis from "ioredis";
-import helmet from "helmet";
+import { ApolloServer } from "apollo-server-express";
+import { makeExecutableSchema } from "@graphql-tools/schema";
+import { typeDefs } from "./graphql/typeDefs.js";
+import { resolvers } from "./graphql/resolvers.js";
+import amqp from "amqplib";
 
 dotenv.config();
 
@@ -30,7 +34,6 @@ const redis = new Redis(process.env.REDIS_URL);
 
 app.use(express.json());
 app.use(cors());
-app.use(helmet());
 app.use(limiter);
 
 mongoose.connect(process.env.MONGODB_URI, {
@@ -56,6 +59,27 @@ const tweetSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", userSchema);
 const Tweet = mongoose.model("Tweet", tweetSchema);
+
+const schema = makeExecutableSchema({
+    typeDefs,
+    resolvers,
+});
+
+const apolloServer = new ApolloServer({
+    schema,
+    context: ({ req }) => {
+        const token = req.headers.authorization || "";
+        try {
+            const user = jwt.verify(token, process.env.JWT_SECRET);
+            return { user };
+        } catch (error) {
+            return {};
+        }
+    },
+});
+
+await apolloServer.start();
+apolloServer.applyMiddleware({ app });
 
 const authenticateToken = async (req, res, next) => {
     const authHeader = req.headers["authorization"];
@@ -116,6 +140,11 @@ app.post("/api/tweets", authenticateToken, async (req, res) => {
                 client.send(JSON.stringify({ type: "NEW_TWEET", tweet }));
             }
         });
+
+        const connection = await amqp.connect(process.env.RABBITMQ_URL);
+        const channel = await connection.createChannel();
+        await channel.assertQueue("tweet_created");
+        channel.sendToQueue("tweet_created", Buffer.from(JSON.stringify(tweet)));
     } catch (error) {
         res.status(500).send(error.message);
     }
