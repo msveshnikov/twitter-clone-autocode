@@ -1,7 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
@@ -11,6 +10,7 @@ import path from "path";
 import dotenv from "dotenv";
 import { fileURLToPath } from "url";
 import Redis from "ioredis";
+import helmet from "helmet";
 
 dotenv.config();
 
