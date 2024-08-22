@@ -1,4 +1,4 @@
-# Twitter Clone App
+# Twitter Clone (build by [AutoCode](https://autocode.one) in 20 minutes)
 
 ## Overview
 
